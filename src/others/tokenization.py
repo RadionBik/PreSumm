@@ -22,9 +22,10 @@ import os
 import unicodedata
 from io import open
 
-from pytorch_transformers import cached_path
+from transformers import cached_path
 
 logger = logging.getLogger(__name__)
+
 
 PRETRAINED_VOCAB_ARCHIVE_MAP = {
     'bert-base-uncased': "https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-uncased-vocab.txt",
@@ -34,7 +35,9 @@ PRETRAINED_VOCAB_ARCHIVE_MAP = {
     'bert-base-multilingual-uncased': "https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-multilingual-uncased-vocab.txt",
     'bert-base-multilingual-cased': "https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-multilingual-cased-vocab.txt",
     'bert-base-chinese': "https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-chinese-vocab.txt",
+    'DeepPavlov/rubert-base-cased': "https://s3.amazonaws.com/models.huggingface.co/bert/DeepPavlov/rubert-base-cased/vocab.txt"
 }
+
 PRETRAINED_VOCAB_POSITIONAL_EMBEDDINGS_SIZE_MAP = {
     'bert-base-uncased': 512,
     'bert-large-uncased': 512,
@@ -43,6 +46,7 @@ PRETRAINED_VOCAB_POSITIONAL_EMBEDDINGS_SIZE_MAP = {
     'bert-base-multilingual-uncased': 512,
     'bert-base-multilingual-cased': 512,
     'bert-base-chinese': 512,
+    'DeepPavlov/rubert-base-cased': 512
 }
 VOCAB_NAME = 'vocab.txt'
 
@@ -71,11 +75,13 @@ def whitespace_tokenize(text):
     return tokens
 
 
-class BertTokenizer(object):
+class CustomBertTokenizer:
     """Runs end-to-end tokenization: punctuation splitting + wordpiece"""
 
     def __init__(self, vocab_file, do_lower_case=True, max_len=None,
-                 never_split=("[UNK]", "[SEP]", "[PAD]", "[CLS]", "[MASK]", "[unused0]", "[unused1]", "[unused2]", "[unused3]", "[unused4]", "[unused5]", "[unused6]")):
+                 never_split=("[UNK]", "[SEP]", "[PAD]", "[CLS]", "[MASK]",
+                              "[unused10]", "[unused1]", "[unused2]", "[unused3]",
+                              "[unused4]", "[unused5]", "[unused6]")):
 
         if not os.path.isfile(vocab_file):
             raise ValueError(
@@ -137,7 +143,7 @@ class BertTokenizer(object):
             vocab_file = pretrained_model_name_or_path
         if os.path.isdir(vocab_file):
             vocab_file = os.path.join(vocab_file, VOCAB_NAME)
-        # redirect to the cache, if necessary
+            # redirect to the cache, if necessary
         try:
             resolved_vocab_file = cached_path(vocab_file, cache_dir=cache_dir)
         except EnvironmentError:
@@ -380,3 +386,10 @@ def _is_punctuation(char):
     if cat.startswith("P"):
         return True
     return False
+
+
+def get_tokenizer(temp_dir=None, tokenizer_class=CustomBertTokenizer):
+    """ tokenizer_class can be either the custom one from this module or the transformer's one """
+    return tokenizer_class.from_pretrained('DeepPavlov/rubert-base-cased',
+                                           do_lower_case=False,
+                                           cache_dir=temp_dir)

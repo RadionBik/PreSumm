@@ -1,6 +1,6 @@
 import bisect
 import gc
-import glob
+import pathlib
 import random
 
 import torch
@@ -81,7 +81,7 @@ def load_dataset(args, corpus_type, shuffle):
         return dataset
 
     # Sort the glob output by file name (by increasing indexes).
-    pts = sorted(glob.glob(args.bert_data_path + '.' + corpus_type + '.[0-9]*.pt'))
+    pts = sorted(pathlib.Path(args.bert_data_path).glob(corpus_type + '.[0-9]*.pt'))
     if pts:
         if (shuffle):
             random.shuffle(pts)
