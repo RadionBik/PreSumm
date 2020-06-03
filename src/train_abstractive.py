@@ -198,7 +198,7 @@ def validate(args, device_id, pt, step):
                                         shuffle=False, is_test=False)
 
     tokenizer = get_tokenizer(args.temp_dir)
-    symbols = get_special_symbols()
+    symbols = get_special_symbols(tokenizer)
 
     valid_loss = abs_loss(model.generator, symbols, model.vocab_size, train=False, device=device)
 

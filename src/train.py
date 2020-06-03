@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
     parser.add_argument("-sep_optim", type=str2bool, nargs='?',const=True,default=False)
     parser.add_argument("-lr_bert", default=2e-3, type=float)
-    parser.add_argument("-lr_dec", default=2e-3, type=float)
+    parser.add_argument("-lr_dec", default=0.1, type=float)
     parser.add_argument("-use_bert_emb", type=str2bool, nargs='?',const=True,default=False)
 
     parser.add_argument("-share_emb", type=str2bool, nargs='?', const=True, default=False)
@@ -83,9 +83,9 @@ if __name__ == '__main__':
     parser.add_argument("-lr", default=1, type=float)
     parser.add_argument("-beta1", default= 0.9, type=float)
     parser.add_argument("-beta2", default=0.999, type=float)
-    parser.add_argument("-warmup_steps", default=8000, type=int)
-    parser.add_argument("-warmup_steps_bert", default=8000, type=int)
-    parser.add_argument("-warmup_steps_dec", default=8000, type=int)
+    parser.add_argument("-warmup_steps", default=20000, type=int)
+    parser.add_argument("-warmup_steps_bert", default=20000, type=int)
+    parser.add_argument("-warmup_steps_dec", default=10000, type=int)
     parser.add_argument("-max_grad_norm", default=0, type=float)
 
     parser.add_argument("-save_checkpoint_steps", default=5, type=int)
