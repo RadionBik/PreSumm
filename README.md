@@ -132,7 +132,7 @@ python preprocess.py -mode format_to_lines -raw_path RAW_PATH -save_path JSON_PA
 
 ####  Step 5. Format to PyTorch Files
 ```
-python preprocess.py -mode format_to_bert -raw_path JSON_PATH -save_path BERT_DATA_PATH  -lower -n_cpus 1 -log_file ../logs/preprocess.log
+python preprocess.py -mode format_to_bert -raw_path JSON_PATH -save_path BERT_DATA_PATH -n_cpus 4 -log_file ../logs/preprocess_lenta.log
 ```
 
 * `JSON_PATH` is the directory containing json files (`../json_data`), `BERT_DATA_PATH` is the target directory to save the generated binary files (`../bert_data`)
