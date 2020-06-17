@@ -182,3 +182,12 @@ https://stackoverflow.com/questions/45894212/installing-pyrouge-gets-error-in-ub
 * `MODEL_PATH` is the directory of saved checkpoints
 * use `-mode valiadte` with `-test_all`, the system will load all saved checkpoints and select the top ones to generate summaries (this will take a while)
 
+## Model exporting
+
+It is possible to export the model for further usage elsewhere,
+for that a checkpoint has to be converted from pickled format to
+a torch state dict along with the arg options (optimizer is omitted): 
+
+```
+python checkpoint_converter.py --checkpoint CHECKPOINT_PATH
+```
